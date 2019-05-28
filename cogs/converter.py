@@ -2,6 +2,9 @@ import discord
 from discord.ext import commands
 import os
 
+from datetime import datetime
+import pytz
+
 # from dotenv import load_dotenv
 # load_dotenv()
 
@@ -38,6 +41,20 @@ class TimezoneConverter(commands.Cog):
         self.HELP_EMBED_MESSAGE.description='わからないことがあったら OJI に聞くにゃ！'
         self.HELP_EMBED_MESSAGE.color = discord.Color.green()
         await ctx.send(content=None, embed=self.HELP_EMBED_MESSAGE)
+
+    @tz.group(name='now')
+    async def _now(self, ctx, *target_timezone):
+        EMBED_MESSAGE = discord.Embed()
+
+        if not target_timezone:
+            current_time = datetime.now().strftime('%Y年%m月%d日 %H時%M分')
+            EMBED_MESSAGE.title = f'現在は{current_time}ですにゃ!'
+            EMBED_MESSAGE.color = discord.Color.green()
+        else:
+            EMBED_MESSAGE.title = '現在その機能は実装されてないにゃ。'
+            EMBED_MESSAGE.color = discord.Color.red()
+
+        await ctx.send(content=None, embed=EMBED_MESSAGE)
 
 
 def setup(bot):
